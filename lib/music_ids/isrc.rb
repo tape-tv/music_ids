@@ -43,5 +43,16 @@ module MusicIds
     def ==(other)
       to_s == other.to_s
     end
+
+    def as(format)
+      case format
+      when :data
+        to_s
+      when :full
+        "#{country}-#{registrant}-#{year}-#{designation}"
+      else
+        raise ArgumentError, "format must be one of [:data, :full], but it was #{format.inspect}"
+      end
+    end
   end
 end

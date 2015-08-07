@@ -58,5 +58,25 @@ module MusicIds
         expect { ISRC.parse("FRZ03") }.to raise_error(ArgumentError)
       end
     end
+
+    context "string representation" do
+      let(:isrc) { ISRC.new('FRZ039800212') }
+
+      it "can generate a full (hyphenated) string representation for presentation uses" do
+        expect(isrc.as(:full)).to eq('FR-Z03-98-00212')
+      end
+
+      it "can generate a (non-hyphenated) string representation for data uses" do
+        expect(isrc.as(:data)).to eq('FRZ039800212')
+      end
+
+      it "requesting another format raises an ArgumentError" do
+        expect { isrc.as(:other) }.to raise_error(ArgumentError)
+      end
+
+      it "the data format is identical to the to_s format" do
+        expect(isrc.as(:data)).to eq(isrc.to_s)
+      end
+    end
   end
 end
