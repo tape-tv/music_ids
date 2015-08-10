@@ -10,7 +10,9 @@ Gem::Specification.new do |spec|
   spec.email         = ["matt@reprocessed.org"]
 
   spec.summary       = %q{A library to handle parsing, normalisation, and output of music industry ID formats like ISRC and GRid}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.description   = %q{music_ids contains classes that represent some of the main ID formats in use in the music industry for identifying individual pieces of recorded music.
+
+There are often several ways that these IDs can be written, so the classes provide standard APIs to parse and normalise ID strings, as well as to break them into their components.}
   spec.homepage      = "https://github.com/tape-tv/music_ids"
   spec.license       = "MIT"
 
