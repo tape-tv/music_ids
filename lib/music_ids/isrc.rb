@@ -55,33 +55,28 @@ module MusicIds
     # Return the ISRC's two-letter country code
     # @return [String]
     def country
-      return unless ok?
-      @country ||= @id_string[0,2].freeze
+      fetch(:@country) { |isrc_string| isrc_string[0,2] }
     end
 
     # Return the ISRC's three-character registrant code
     # @return [String]
     def registrant
-      return unless ok?
-      @registrant ||= @id_string[2,3].freeze
+      fetch(:@registrant) { |isrc_string| isrc_string[2,3] }
     end
 
     # Return the ISRC's two-digit year.
     #
     # Note that year > 40 is a 19YY year, and 00 to 39 are 20YY years
-    # see http://www.ifpi.org/content/library/isrc_handbook.pdf section 4.8
+    # see http://www.ifpi.org/content/library/isrc_handbook.pdf §4.8
     # @return [String]
     def year
-      return unless ok?
-      @year ||= @id_string[5,2].freeze
+      fetch(:@year) { |isrc_string| isrc_string[5,2] }
     end
 
     # Return the ISRC's five-character designation code.
-    #
     # @return [String]
     def designation
-      return unless ok?
-      @designation ||= @id_string[7,5].freeze
+      fetch(:@designation) { |isrc_string| isrc_string[7,5] }
     end
 
     def to_isrc

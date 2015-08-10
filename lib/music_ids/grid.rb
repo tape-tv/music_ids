@@ -10,7 +10,7 @@ module MusicIds
   # often used as key identifiers in the delivery and reporting of digital
   # music products.
   #
-  # You can get more details from 
+  # You can get more details from
   # https://en.wikipedia.org/wiki/Global_Release_Identifier and
   # http://www.ifpi.org/grid.php
   #
@@ -45,35 +45,31 @@ module MusicIds
     # Return the GRid's two-letter scheme identifier
     # @return [String]
     def scheme
-      return unless ok?
-      @scheme ||= @id_string[0,2].freeze
+      fetch(:@scheme) { |grid_string| grid_string[0,2] }
     end
 
     # Return the GRid's 5-character issuer code
     # @return [String]
     def issuer
-      return unless ok?
-      @issuer ||= @id_string[2,5].freeze
+      fetch(:@issuer) { |grid_string| grid_string[2,5] }
     end
 
     # Return the GRid's 10-character release number.
     # @return [String]
     def release
-      return unless ok?
-      @release ||= @id_string[7,10].freeze
+      fetch(:@release) { |grid_string| grid_string[7,10] }
     end
 
     # Return the GRid's check character.
     # @return [String]
     def check
-      return unless ok?
-      @check ||= @id_string[17,1].freeze
+      fetch(:@check) { |grid_string| grid_string[17,1] }
     end
 
     def to_grid
       self
     end
-    #
+
     # Generate the hyphen-separated full display GRid string
     # @return [String]
     def as_full

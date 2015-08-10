@@ -76,5 +76,13 @@ module MusicIds
         raise ArgumentError, "format must be one of [:data, :full], but it was #{format.inspect}"
       end
     end
+
+    private
+
+    def fetch(ivar)
+      return unless ok?
+      return instance_variable_get(ivar) if instance_variable_defined?(ivar)
+      instance_variable_set(ivar, yield(@id_string).freeze)
+    end
   end
 end
