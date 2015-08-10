@@ -9,6 +9,7 @@ module MusicIds
         specify { expect(ISRC.parse('FR-Z03-98-00212')).to eq(expected) }
         specify { expect(ISRC.parse('FRZ039800212')).to eq(expected) }
         specify { expect(ISRC.parse('frz039800212')).to eq(expected) }
+        specify { expect(ISRC.parse('FRZ039800212').ok?).to be(true) }
       end
 
       context "strict parsing" do
@@ -39,6 +40,10 @@ module MusicIds
       context "relaxed parsing" do
         it "marks a bad input string instead of raising" do
           expect(ISRC.parse('FRZ03', relaxed: true).ok?).to be(false)
+        end
+
+        it "handles good inputs exactly as strict does" do
+          expect(ISRC.parse('FRZ039800212').ok?).to be(true)
         end
       end
     end
