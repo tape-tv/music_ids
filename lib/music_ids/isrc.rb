@@ -139,7 +139,9 @@ module MusicIds
     end
 
     # Returns the ISRC as a string, either the 12-character normalised string
-    # (:data) or the 15-character display string (:full). Note that a badly-formed ISRC will simply return the original string whichever format you ask for
+    # (:data) or the 15-character display string (:full). Note that a
+    # badly-formed ISRC will simply return the original string whichever format
+    # you ask for.
     # @param format [:data, :full] the output format to use
     # @return [String]
     def as(format)
