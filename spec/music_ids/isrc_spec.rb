@@ -43,7 +43,7 @@ module MusicIds
         end
 
         it "handles good inputs exactly as strict does" do
-          expect(ISRC.parse('FRZ039800212').ok?).to be(true)
+          expect(ISRC.parse('FRZ039800212', relaxed: true).ok?).to be(true)
         end
       end
     end
