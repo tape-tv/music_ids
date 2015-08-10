@@ -52,6 +52,12 @@ module MusicIds
       /\A[A-Z]{2}-?[A-Z0-9]{3}-?[0-9]{2}-?[0-9]{5}\Z/
     end
 
+    # The prefix to use for generating a prefixed string representation of the ISRC
+    # (see http://www.ifpi.org/downloads/GRid_Handbook_V2_0_final.pdf §9.2 / §9.3
+    def self.prefix
+      @prefix ||= 'ISRC'.freeze
+    end
+
     # Return the ISRC's two-letter country code
     # @return [String]
     def country

@@ -42,6 +42,12 @@ module MusicIds
       /\AA1-?[A-Z0-9]{5}-?[A-Z0-9]{10}-?[A-Z0-9]\Z/
     end
 
+    # The prefix to use for generating a prefixed string representation of the GRID
+    # (see http://www.ifpi.org/downloads/GRid_Standard_v2_1.pdf §6
+    def self.prefix
+      @prefix ||= 'GRID'.freeze
+    end
+
     # Return the GRid's two-letter scheme identifier
     # @return [String]
     def scheme

@@ -126,6 +126,10 @@ module MusicIds
         expect(isrc.as(:data)).to eq('FRZ039800212')
       end
 
+      it "can generate a prefixed full version of the ISRC string" do
+        expect(isrc.as(:prefixed)).to eq('ISRC:FR-Z03-98-00212')
+      end
+
       it "requesting another format raises an ArgumentError" do
         expect { isrc.as(:other) }.to raise_error(ArgumentError)
       end

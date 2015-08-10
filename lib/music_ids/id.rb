@@ -64,7 +64,7 @@ module MusicIds
     # (:data) or the format specified for 'full' display (:full). Note that a
     # badly-formed ID will simply return the original string whichever format
     # you ask for.
-    # @param format [:data, :full] the output format to use
+    # @param format [:data, :full, :prefixed] the output format to use
     # @return [String]
     def as(format)
       case format
@@ -72,9 +72,16 @@ module MusicIds
         to_s
       when :full
         ok? ? as_full : to_s
+      when :prefixed
+        "#{prefix}:#{as_full}"
       else
         raise ArgumentError, "format must be one of [:data, :full], but it was #{format.inspect}"
       end
+    end
+
+    # Return the prefix for the identifier
+    def prefix
+      self.class.prefix
     end
 
     private

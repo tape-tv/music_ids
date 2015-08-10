@@ -118,6 +118,10 @@ module MusicIds
         expect(grid.as(:data)).to eq('A12425GABC1234002M')
       end
 
+      it "can generate a prefixed full version of the string" do
+        expect(grid.as(:prefixed)).to eq('GRID:A1-2425G-ABC1234002-M')
+      end
+
       it "requesting another format raises an ArgumentError" do
         expect { grid.as(:other) }.to raise_error(ArgumentError)
       end
