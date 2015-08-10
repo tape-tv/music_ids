@@ -14,35 +14,58 @@ module MusicIds
   # https://en.wikipedia.org/wiki/International_Standard_Recording_Code and
   # http://www.usisrc.org/
   class ISRC
-    # Parse an ISRC string into an ISRC instance
-    #
-    # @param input [String] The input ISRC string to parse
-    # @return [ISRC] the ISRC instance
-    def self.parse(input)
-      input = input.to_s
+    # See http://www.ifpi.org/content/library/isrc_handbook.pdf §3.5
+    WELL_FORMED_INPUT = /\A[A-Z]{2}-?[A-Z0-9]{3}-?[0-9]{2}-?[0-9]{5}\Z/
 
-      if input.length == 12
-        new(input)
-      elsif input.length == 15
-        new(input.gsub('-', ''))
-      else
-        raise ArgumentError, "'#{input}' is not the right length to be a 12- or 15-character ISRC"
+    class << self
+      # Parse an ISRC string into an ISRC instance
+      #
+      # @param input [String] The input ISRC string to parse
+      # @return [ISRC] the ISRC instance
+      def parse(input, opts = {})
+        input = input.to_s.upcase
+        opts[:relaxed] ? parse_relaxed(input) : parse_strict(input)
+      end
+
+      def parse_strict(input)
+        if WELL_FORMED_INPUT.match(input)
+          new(input.gsub('-', ''))
+        else
+          raise ArgumentError, "'#{input}' is not the right length to be a 12- or 15-character ISRC"
+        end
+      end
+
+      def parse_relaxed(input)
+        if WELL_FORMED_INPUT.match(input)
+          new(input.gsub('-', ''))
+        else
+          new(input, ok: false)
+        end
       end
     end
 
-    def initialize(isrc_string)
+    def initialize(isrc_string, opts = {ok: true})
       @isrc_string = isrc_string.dup.freeze
+      @ok = opts[:ok] ? true : false
+    end
+
+    # Is this a well-formed ISRC?
+    # @return [true,false]
+    def ok?
+      @ok
     end
 
     # Return the ISRC's two-letter country code
     # @return [String]
     def country
+      return unless ok?
       @country ||= @isrc_string[0,2].freeze
     end
 
     # Return the ISRC's three-character registrant code
     # @return [String]
     def registrant
+      return unless ok?
       @registrant ||= @isrc_string[2,3].freeze
     end
 
@@ -52,6 +75,7 @@ module MusicIds
     # see http://www.ifpi.org/content/library/isrc_handbook.pdf section 4.8
     # @return [String]
     def year
+      return unless ok?
       @year ||= @isrc_string[5,2].freeze
     end
 
@@ -59,6 +83,7 @@ module MusicIds
     #
     # @return [String]
     def designation
+      return unless ok?
       @designation ||= @isrc_string[7,5].freeze
     end
 

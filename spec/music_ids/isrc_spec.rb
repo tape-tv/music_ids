@@ -2,6 +2,47 @@ require 'music_ids/isrc'
 
 module MusicIds
   RSpec.describe ISRC do
+    context "parsing" do
+      context "well-formed inputs" do
+        let(:expected) { ISRC.new("FRZ039800212") }
+
+        specify { expect(ISRC.parse("FR-Z03-98-00212")).to eq(expected) }
+        specify { expect(ISRC.parse("FRZ039800212")).to eq(expected) }
+        specify { expect(ISRC.parse("frz039800212")).to eq(expected) }
+      end
+
+      context "strict parsing" do
+        it "will not parse a string that's not long enough" do
+          expect { ISRC.parse("FRZ03") }.to raise_error(ArgumentError)
+        end
+
+        it "will not parse a non-alpha country code" do
+          expect { ISRC.parse("11Z039800212") }.to raise_error(ArgumentError)
+        end
+
+        it "will not parse a non-digit year" do
+          expect { ISRC.parse("FRZ03AA00212") }.to raise_error(ArgumentError)
+        end
+
+        it "will not parse a non-digit designation code" do
+          expect { ISRC.parse("FRZ0398A0212") }.to raise_error(ArgumentError)
+        end
+
+        it "will not parse non A-Z 0-9 anywwhere" do
+          expect { ISRC.parse("~RZ039800212") }.to raise_error(ArgumentError)
+          expect { ISRC.parse("FRZ-39800212") }.to raise_error(ArgumentError)
+          expect { ISRC.parse("FRZ039_00212") }.to raise_error(ArgumentError)
+          expect { ISRC.parse("FRZ039800*12") }.to raise_error(ArgumentError)
+        end
+      end
+
+      context "relaxed parsing" do
+        it "marks a bad input string instead of raising" do
+          expect(ISRC.parse("FRZ03", relaxed: true).ok?).to be(false)
+        end
+      end
+    end
+
     context "an instance" do
       let(:isrc) { ISRC.new("FRZ039800212") }
 
@@ -32,6 +73,30 @@ module MusicIds
         end
       end
 
+      context "a bad ISRC instance" do
+        let(:isrc) { ISRC.new('FRZ03', ok: false) }
+
+        it "will not report the country code" do
+          expect(isrc.country).to be_nil
+        end
+
+        it "will not report the registrant code" do
+          expect(isrc.registrant).to be_nil
+        end
+
+        it "will not report the year of reference" do
+          expect(isrc.year).to be_nil
+        end
+
+        it "will not report the designation code" do
+          expect(isrc.designation).to be_nil
+        end
+
+        it "returns the bad ISRC string as usual" do
+          expect(isrc.to_s).to eq('FRZ03')
+        end
+      end
+
       it "returns itself when to_isrc called" do
         expect(isrc.to_isrc).to be(isrc)
       end
@@ -42,20 +107,6 @@ module MusicIds
 
       it "compares equal with another ISRC instance of the same ISRC string" do
         expect(isrc).to eq(ISRC.new(isrc.to_s))
-      end
-    end
-
-    context "parsing" do
-      it "can parse a hyphen-separated ISRC" do
-        expect(ISRC.parse("FR-Z03-98-00212")).to eq(ISRC.new("FRZ039800212"))
-      end
-
-      it "can parse a non-separated ISRC" do
-        expect(ISRC.parse("FRZ039800212")).to eq(ISRC.new("FRZ039800212"))
-      end
-
-      it "will not parse a string that's not long enough" do
-        expect { ISRC.parse("FRZ03") }.to raise_error(ArgumentError)
       end
     end
 
