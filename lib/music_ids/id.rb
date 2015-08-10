@@ -14,19 +14,29 @@ module MusicIds
 
       private
 
-      def parse_strict(input)
-        if well_formed_id_matcher.match(input)
-          new(input.gsub('-', ''))
-        else
-          raise ArgumentError, "'#{input}' is not the right length to be a #{self.class}"
+      def well_formed_id_matcher
+        @matcher ||= begin
+          Regexp.compile("\\A(?:#{prefix}:)?(#{id_blocks.join('-')}|#{id_blocks.join('')})\\Z")
         end
       end
 
+      def parse_strict(input)
+        parse_string(input) { |input|
+          raise ArgumentError, "'#{input}' is not the right length to be a #{self.class}"
+        }
+      end
+
       def parse_relaxed(input)
-        if well_formed_id_matcher.match(input)
-          new(input.gsub('-', ''))
-        else
+        parse_string(input) { |input|
           new(input, ok: false)
+        }
+      end
+
+      def parse_string(input)
+        if match = well_formed_id_matcher.match(input)
+          new(match[1].gsub('-', ''))
+        else
+          yield(input)
         end
       end
     end
@@ -75,7 +85,7 @@ module MusicIds
       when :prefixed
         "#{prefix}:#{as_full}"
       else
-        raise ArgumentError, "format must be one of [:data, :full], but it was #{format.inspect}"
+        raise ArgumentError, "format must be one of [:data, :full, :prefixed], but it was #{format.inspect}"
       end
     end
 

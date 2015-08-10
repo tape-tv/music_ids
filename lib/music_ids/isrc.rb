@@ -48,8 +48,8 @@ module MusicIds
     include Id
 
     # See http://www.ifpi.org/content/library/isrc_handbook.pdf §3.5
-    def self.well_formed_id_matcher
-      /\A[A-Z]{2}-?[A-Z0-9]{3}-?[0-9]{2}-?[0-9]{5}\Z/
+    def self.id_blocks
+      ['[A-Z]{2}', '[A-Z0-9]{3}', '[0-9]{2}', '[0-9]{5}']
     end
 
     # The prefix to use for generating a prefixed string representation of the ISRC

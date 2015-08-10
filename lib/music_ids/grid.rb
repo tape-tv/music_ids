@@ -38,8 +38,8 @@ module MusicIds
     include Id
 
     # See http://www.ifpi.org/downloads/GRid_Standard_v2_1.pdf §5
-    def self.well_formed_id_matcher
-      /\AA1-?[A-Z0-9]{5}-?[A-Z0-9]{10}-?[A-Z0-9]\Z/
+    def self.id_blocks
+      ['A1', '[A-Z0-9]{5}', '[A-Z0-9]{10}', '[A-Z0-9]']
     end
 
     # The prefix to use for generating a prefixed string representation of the GRID

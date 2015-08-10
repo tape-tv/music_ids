@@ -8,6 +8,9 @@ module MusicIds
 
         specify { expect(GRid.parse('A1-2425G-ABC1234002-M')).to eq(expected) }
         specify { expect(GRid.parse('A12425GABC1234002M')).to eq(expected) }
+        specify { expect(GRid.parse('GRID:A1-2425G-ABC1234002-M')).to eq(expected) }
+        specify { expect(GRid.parse('GRID:A12425GABC1234002M')).to eq(expected) }
+        specify { expect(GRid.parse('grid:A12425GABC1234002M')).to eq(expected) }
         specify { expect(GRid.parse('a12425gabc1234002m')).to eq(expected) }
         specify { expect(GRid.parse('A12425GABC1234002M').ok?).to be(true) }
       end
@@ -21,6 +24,9 @@ module MusicIds
           expect { GRid.parse('B1-2425G-ABC1234002-M') }.to raise_error(ArgumentError)
         end
 
+        it "will not parse a string with only some hyphens" do
+          expect { GRid.parse('A1-2425G-ABC1234002M') }.to raise_error(ArgumentError)
+        end
 
         it "will not parse non A-Z 0-9 anywwhere" do
           expect { GRid.parse('A1~425GABC1234002M') }.to raise_error(ArgumentError)

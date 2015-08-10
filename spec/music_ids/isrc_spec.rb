@@ -7,8 +7,11 @@ module MusicIds
         let(:expected) { ISRC.new('FRZ039800212') }
 
         specify { expect(ISRC.parse('FR-Z03-98-00212')).to eq(expected) }
+        specify { expect(ISRC.parse('ISRC:FR-Z03-98-00212')).to eq(expected) }
+        specify { expect(ISRC.parse('ISRC:FRZ039800212')).to eq(expected) }
         specify { expect(ISRC.parse('FRZ039800212')).to eq(expected) }
         specify { expect(ISRC.parse('frz039800212')).to eq(expected) }
+        specify { expect(ISRC.parse('isrc:FRZ039800212')).to eq(expected) }
         specify { expect(ISRC.parse('FRZ039800212').ok?).to be(true) }
       end
 
@@ -27,6 +30,10 @@ module MusicIds
 
         it "will not parse a non-digit designation code" do
           expect { ISRC.parse('FRZ0398A0212') }.to raise_error(ArgumentError)
+        end
+
+        it "will not parse a string with only some hyphens" do
+          expect { ISRC.parse('FR-Z0398-00212') }.to raise_error(ArgumentError)
         end
 
         it "will not parse non A-Z 0-9 anywwhere" do
