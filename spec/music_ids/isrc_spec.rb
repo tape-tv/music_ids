@@ -128,6 +128,14 @@ module MusicIds
       it "the data format is identical to the to_s format" do
         expect(isrc.as(:data)).to eq(isrc.to_s)
       end
+
+      context "a bad ISRC" do
+        let(:isrc) { ISRC.new('FRZ03', ok: false) }
+
+        it "the :full format just returns the to_s format" do
+          expect(isrc.as(:full)).to eq('FRZ03')
+        end
+      end
     end
   end
 end

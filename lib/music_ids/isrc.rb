@@ -102,7 +102,7 @@ module MusicIds
     end
 
     # Returns the ISRC as a string, either the 12-character normalised string
-    # (:data) or the 15-character display string (:full)
+    # (:data) or the 15-character display string (:full). Note that a badly-formed ISRC will simply return the original string whichever format you ask for
     # @param format [:data, :full] the output format to use
     # @return [String]
     def as(format)
@@ -110,7 +110,7 @@ module MusicIds
       when :data
         to_s
       when :full
-        "#{country}-#{registrant}-#{year}-#{designation}"
+        ok? ? "#{country}-#{registrant}-#{year}-#{designation}" : to_s
       else
         raise ArgumentError, "format must be one of [:data, :full], but it was #{format.inspect}"
       end
