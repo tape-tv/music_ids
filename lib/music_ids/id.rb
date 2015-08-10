@@ -46,7 +46,7 @@ module MusicIds
     end
 
     # @api private
-    # @param isrc_string [String] The ISRC string
+    # @param id_string [String] The ISRC string
     # @param opts [Hash]
     # @option opts [true, false] :ok (true) Whether the ISRC is well-formed or not
     def initialize(id_string, opts = {ok: true})
