@@ -22,7 +22,7 @@ Or install it yourself as:
     $ gem install music_ids
 
 ## Usage
-(See API docs at <http://www.rubydoc.info/gems/music_ids> for more details including links to the relevant ID specifications)
+(See API docs at <http://www.rubydoc.info/gems/music_ids> for more details including links to the relevant ID specifications.)
 
 ```ruby
 require 'music_ids'
