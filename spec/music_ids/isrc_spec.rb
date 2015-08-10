@@ -4,71 +4,71 @@ module MusicIds
   RSpec.describe ISRC do
     context "parsing" do
       context "well-formed inputs" do
-        let(:expected) { ISRC.new("FRZ039800212") }
+        let(:expected) { ISRC.new('FRZ039800212') }
 
-        specify { expect(ISRC.parse("FR-Z03-98-00212")).to eq(expected) }
-        specify { expect(ISRC.parse("FRZ039800212")).to eq(expected) }
-        specify { expect(ISRC.parse("frz039800212")).to eq(expected) }
+        specify { expect(ISRC.parse('FR-Z03-98-00212')).to eq(expected) }
+        specify { expect(ISRC.parse('FRZ039800212')).to eq(expected) }
+        specify { expect(ISRC.parse('frz039800212')).to eq(expected) }
       end
 
       context "strict parsing" do
         it "will not parse a string that's not long enough" do
-          expect { ISRC.parse("FRZ03") }.to raise_error(ArgumentError)
+          expect { ISRC.parse('FRZ03') }.to raise_error(ArgumentError)
         end
 
         it "will not parse a non-alpha country code" do
-          expect { ISRC.parse("11Z039800212") }.to raise_error(ArgumentError)
+          expect { ISRC.parse('11Z039800212') }.to raise_error(ArgumentError)
         end
 
         it "will not parse a non-digit year" do
-          expect { ISRC.parse("FRZ03AA00212") }.to raise_error(ArgumentError)
+          expect { ISRC.parse('FRZ03AA00212') }.to raise_error(ArgumentError)
         end
 
         it "will not parse a non-digit designation code" do
-          expect { ISRC.parse("FRZ0398A0212") }.to raise_error(ArgumentError)
+          expect { ISRC.parse('FRZ0398A0212') }.to raise_error(ArgumentError)
         end
 
         it "will not parse non A-Z 0-9 anywwhere" do
-          expect { ISRC.parse("~RZ039800212") }.to raise_error(ArgumentError)
-          expect { ISRC.parse("FRZ-39800212") }.to raise_error(ArgumentError)
-          expect { ISRC.parse("FRZ039_00212") }.to raise_error(ArgumentError)
-          expect { ISRC.parse("FRZ039800*12") }.to raise_error(ArgumentError)
+          expect { ISRC.parse('~RZ039800212') }.to raise_error(ArgumentError)
+          expect { ISRC.parse('FRZ-39800212') }.to raise_error(ArgumentError)
+          expect { ISRC.parse('FRZ039_00212') }.to raise_error(ArgumentError)
+          expect { ISRC.parse('FRZ039800*12') }.to raise_error(ArgumentError)
         end
       end
 
       context "relaxed parsing" do
         it "marks a bad input string instead of raising" do
-          expect(ISRC.parse("FRZ03", relaxed: true).ok?).to be(false)
+          expect(ISRC.parse('FRZ03', relaxed: true).ok?).to be(false)
         end
       end
     end
 
     context "an instance" do
-      let(:isrc) { ISRC.new("FRZ039800212") }
+      let(:isrc) { ISRC.new('FRZ039800212') }
 
       it "reports the country code" do
-        expect(isrc.country).to eq("FR")
+        expect(isrc.country).to eq('FR')
       end
 
       it "reports the registrant code" do
-        expect(isrc.registrant).to eq("Z03")
+        expect(isrc.registrant).to eq('Z03')
       end
 
       it "reports the year of reference" do
-        expect(isrc.year).to eq("98")
+        expect(isrc.year).to eq('98')
       end
 
       it "reports the designation code" do
-        expect(isrc.designation).to eq("00212")
+        expect(isrc.designation).to eq('00212')
       end
 
       context "returning a string" do
         it "reports the full isrc string" do
-          expect(isrc.to_s).to eq("FRZ039800212")
+          expect(isrc.to_s).to eq('FRZ039800212')
         end
 
         it "returns a copy of the string so it remains immutable" do
-          mutated = isrc.to_s << "mutated"
+          mutated = isrc.to_s << 'mutated'
           expect(mutated).to_not eq(isrc.to_s)
         end
       end
