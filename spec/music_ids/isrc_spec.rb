@@ -52,6 +52,10 @@ module MusicIds
           bad_isrc =  ISRC.parse('FRZ03', relaxed: true)
           expect { ISRC.parse(bad_isrc) }.to raise_error(ArgumentError)
         end
+
+        it "will not pass through nil" do
+          expect { ISRC.parse(nil) }.to raise_error(ArgumentError)
+        end
       end
 
       context "relaxed parsing" do
@@ -63,8 +67,17 @@ module MusicIds
           expect(ISRC.parse('frz03', relaxed: true).to_s).to eq('frz03')
         end
 
+        it "passes through nil" do
+          expect(ISRC.parse(nil, relaxed: true)).to be_nil
+        end
+
         it "handles good inputs exactly as strict does" do
           expect(ISRC.parse('FRZ039800212', relaxed: true).ok?).to be(true)
+        end
+
+        it "provides .relaxed as a convenience method" do
+          isrc = ISRC.new('FRZ039800212')
+          expect(ISRC.relaxed('FRZ039800212')).to eq(isrc)
         end
       end
     end

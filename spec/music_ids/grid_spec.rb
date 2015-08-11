@@ -43,6 +43,10 @@ module MusicIds
           bad_grid = GRid.parse('A12425G', relaxed: true)
           expect { GRid.parse(bad_grid) }.to raise_error(ArgumentError)
         end
+
+        it "will not pass through nil" do
+          expect { GRid.parse(nil) }.to raise_error(ArgumentError)
+        end
       end
 
       context "relaxed parsing" do
@@ -54,8 +58,17 @@ module MusicIds
           expect(GRid.parse('a12425g', relaxed: true).to_s).to eq('a12425g')
         end
 
+        it "passes through nil" do
+          expect(GRid.parse(nil, relaxed: true)).to be_nil
+        end
+
         it "handles good inputs exactly as strict does" do
           expect(GRid.parse('A12425GABC1234002M', relaxed: true).ok?).to be(true)
+        end
+
+        it "provides .relaxed as a convenience method" do
+          grid = GRid.new('A12425GABC1234002M')
+          expect(GRid.relaxed('A12425GABC1234002M')).to eq(grid)
         end
       end
     end

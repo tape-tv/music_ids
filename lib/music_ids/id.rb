@@ -8,7 +8,13 @@ module MusicIds
       # @option opts [true, false] :relaxed (false) Whether to parse in relaxed mode
       # @return [ISRC] the ISRC instance
       def parse(input, opts = {})
-        opts[:relaxed] ? parse_relaxed(input) : parse_strict(input)
+        opts[:relaxed] ? relaxed(input) : parse_strict(input)
+      end
+
+      def relaxed(input)
+        parse_string(input) { |input|
+          new(input, ok: false) unless input.nil?
+        }
       end
 
       private
@@ -21,17 +27,12 @@ module MusicIds
 
       def parse_strict(input)
         parse_string(input) { |input|
-          raise ArgumentError, "'#{input}' is not the right length to be a #{self.class}"
-        }
-      end
-
-      def parse_relaxed(input)
-        parse_string(input) { |input|
-          new(input, ok: false)
+          raise ArgumentError, "'#{input}' is not the right length to be a #{self.name}"
         }
       end
 
       def parse_string(input)
+        return yield(input) if input.nil?
         normalised = input.to_s.upcase
         if match = well_formed_id_matcher.match(normalised)
           new(match[1].gsub('-', ''))
