@@ -21,7 +21,7 @@ There are often several ways that these IDs can be written, so the classes provi
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.9"
+  spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3"
   spec.add_development_dependency "yard"
