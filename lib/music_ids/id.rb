@@ -8,7 +8,6 @@ module MusicIds
       # @option opts [true, false] :relaxed (false) Whether to parse in relaxed mode
       # @return [ISRC] the ISRC instance
       def parse(input, opts = {})
-        input = input.to_s.upcase
         opts[:relaxed] ? parse_relaxed(input) : parse_strict(input)
       end
 
@@ -33,7 +32,8 @@ module MusicIds
       end
 
       def parse_string(input)
-        if match = well_formed_id_matcher.match(input)
+        normalised = input.to_s.upcase
+        if match = well_formed_id_matcher.match(normalised)
           new(match[1].gsub('-', ''))
         else
           yield(input)

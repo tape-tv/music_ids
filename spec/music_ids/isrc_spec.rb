@@ -59,6 +59,10 @@ module MusicIds
           expect(ISRC.parse('FRZ03', relaxed: true).ok?).to be(false)
         end
 
+        it "does no normalisation on a bad input string" do
+          expect(ISRC.parse('frz03', relaxed: true).to_s).to eq('frz03')
+        end
+
         it "handles good inputs exactly as strict does" do
           expect(ISRC.parse('FRZ039800212', relaxed: true).ok?).to be(true)
         end

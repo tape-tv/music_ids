@@ -50,6 +50,10 @@ module MusicIds
           expect(GRid.parse('A12425G', relaxed: true).ok?).to be(false)
         end
 
+        it "does no normalisation on a bad input string" do
+          expect(GRid.parse('a12425g', relaxed: true).to_s).to eq('a12425g')
+        end
+
         it "handles good inputs exactly as strict does" do
           expect(GRid.parse('A12425GABC1234002M', relaxed: true).ok?).to be(true)
         end
