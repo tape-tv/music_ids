@@ -163,5 +163,13 @@ module MusicIds
         end
       end
     end
+
+    context "JSON generation" do
+      let(:isrc) { ISRC.new('FRZ039800212') }
+
+      it "uses the to_s rep for as_json" do
+        expect(isrc.as_json).to eq(isrc.to_s)
+      end
+    end
   end
 end

@@ -94,6 +94,10 @@ module MusicIds
       self.class.prefix
     end
 
+    def as_json(*)
+      to_s
+    end
+
     private
 
     def fetch(ivar)

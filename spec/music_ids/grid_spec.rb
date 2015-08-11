@@ -154,5 +154,13 @@ module MusicIds
         end
       end
     end
+
+    context "JSON generation" do
+      let(:grid) { GRid.new('A12425GABC1234002M') }
+
+      it "uses the to_s rep for as_json" do
+        expect(grid.as_json).to eq(grid.to_s)
+      end
+    end
   end
 end

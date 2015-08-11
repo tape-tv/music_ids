@@ -73,6 +73,23 @@ grid.as(:prefixed) #=> 'GRID:A1-2425G-ABC1234002-M'
 MusicIds::GRid.parse(grid) == grid #=> true
 ```
 
+Support for `as_json` is included so the basic JSON generation case will work:
+
+```ruby
+require 'music_ids'
+require 'json'
+
+
+isrc = MusicIds::ISRC.parse('FRZ039800212')
+grid = MusicIds::GRid.parse('A12425GABC1234002M')
+
+isrc.as_json #=> 'FRZ039800212'
+grid.as_json #=> 'A12425GABC1234002M'
+
+JSON.generate({isrc: isrc, grid: grid})
+#=> "{\"isrc\":\"FRZ039800212\",\"grid\":\"A12425GABC1234002M\"}"
+```
+
 ## Development
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
 `bin/console` for an interactive prompt that will allow you to experiment.
