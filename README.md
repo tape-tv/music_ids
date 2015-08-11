@@ -6,7 +6,7 @@
 
 There are often several ways that these IDs can be written, so the classes provide standard APIs to parse and normalise ID strings, as well as to break them into their components.
 
-Currently we offer a class for the ISRC (International Standard Recording Code).
+Currently we have classes for the ISRC (International Standard Recording Code) and GRid (Global Release Identifier).
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -24,15 +24,23 @@ Or install it yourself as:
     $ gem install music_ids
 
 ## Usage
-(See API docs at <http://www.rubydoc.info/gems/music_ids> for more details including links to the relevant ID specifications.)
+(See API docs at <http://www.rubydoc.info/gems/music_ids> for more details
+including links to the relevant ID specifications.)
+
+`MusicIds::GRid` and `MusicIds::ISRC` have the same basic API pattern: a
+`parse` class method, `to_s` returns normalised string version of the ID and
+`as(format)` returns different string representations of the Id.
+
+Instances compare equal if their normalised string representations match.
+Parsing an existing instance just returns another instance of the same ID.
 
 ```ruby
 require 'music_ids'
 
 isrc = MusicIds::ISRC.parse('FRZ039800212')
-isrc.country #=> 'FR'
-isrc.registrant #=> 'Z03'
-isrc.year #=> '98'
+isrc.country     #=> 'FR'
+isrc.registrant  #=> 'Z03'
+isrc.year        #=> '98'
 isrc.designation #=> '00212'
 
 other = ISRC.parse('FR-Z03-98-00212')
@@ -42,12 +50,38 @@ isrc == other #=> true
 
 isrc.to_s #=> 'FRZ039800212'
 isrc.as(:full) #=> 'FR-Z03-98-00212'
+
+MusicIds::ISRC.parse(isrc) == isrc #=> true
+
+grid_with_hyphens = MusicIds::GRid.parse('A1-2425G-ABC1234002-M')
+grid =              MusicIds::GRid.parse('A12425GABC1234002M')
+# You do see this form with GRids
+grid_with_prefix =  MusicIds::GRid.parse('GRID:A1-2425G-ABC1234002-M')
+
+grid.scheme  #=> 'A1'
+grid.issuer  #=> '2425G'
+grid.release #=> 'ABC1234002'
+grid.check   #=> 'M'
+
+grid_with_hyphens == grid #=> true
+grid_with_prefix == grid #=> true
+
+grid.to_s #=> 'A12425GABC1234002M'
+grid.as(:full) #=> 'A1-2425G-ABC1234002-M'
+grid.as(:prefixed) #=> 'GRID:A1-2425G-ABC1234002-M'
+
+MusicIds::GRid.parse(grid) == grid #=> true
 ```
 
 ## Development
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run
+`bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release` to create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To
+release a new version, update the version number in `version.rb`, and then run
+`bundle exec rake release` to create a git tag for the version, push git
+commits and tags, and push the `.gem` file to
+[rubygems.org](https://rubygems.org).
 
 ## Contributing
 1. Fork it ( https://github.com/[my-github-username]/music_ids/fork )

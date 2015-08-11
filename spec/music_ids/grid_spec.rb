@@ -15,6 +15,11 @@ module MusicIds
         specify { expect(GRid.parse('A12425GABC1234002M').ok?).to be(true) }
       end
 
+      it "parses an existing instance" do
+        grid = GRid.new('A12425GABC1234002M')
+        expect(GRid.parse(grid)).to eq(grid)
+      end
+
       context "strict parsing" do
         it "will not parse a string that's not long enough" do
           expect { GRid.parse('A12425G') }.to raise_error(ArgumentError)
@@ -32,6 +37,11 @@ module MusicIds
           expect { GRid.parse('A1~425GABC1234002M') }.to raise_error(ArgumentError)
           expect { GRid.parse('A12425GA_C1234002M') }.to raise_error(ArgumentError)
           expect { GRid.parse('A12425GABC1234002*') }.to raise_error(ArgumentError)
+        end
+
+        it "will not pass through a bad instance" do
+          bad_grid = GRid.parse('A12425G', relaxed: true)
+          expect { GRid.parse(bad_grid) }.to raise_error(ArgumentError)
         end
       end
 

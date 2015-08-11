@@ -15,6 +15,11 @@ module MusicIds
         specify { expect(ISRC.parse('FRZ039800212').ok?).to be(true) }
       end
 
+      it "parses an existing instance" do
+        isrc = ISRC.new('FRZ039800212')
+        expect(ISRC.parse(isrc)).to eq(isrc)
+      end
+
       context "strict parsing" do
         it "will not parse a string that's not long enough" do
           expect { ISRC.parse('FRZ03') }.to raise_error(ArgumentError)
@@ -41,6 +46,11 @@ module MusicIds
           expect { ISRC.parse('FRZ-39800212') }.to raise_error(ArgumentError)
           expect { ISRC.parse('FRZ039_00212') }.to raise_error(ArgumentError)
           expect { ISRC.parse('FRZ039800*12') }.to raise_error(ArgumentError)
+        end
+
+        it "will not pass through a bad instance" do
+          bad_isrc =  ISRC.parse('FRZ03', relaxed: true)
+          expect { ISRC.parse(bad_isrc) }.to raise_error(ArgumentError)
         end
       end
 
