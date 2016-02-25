@@ -1,6 +1,10 @@
 # MusicIds
 
-[![Build Status](https://travis-ci.org/tape-tv/music_ids.svg)](https://travis-ci.org/tape-tv/music_ids)[![Code Climate](https://codeclimate.com/github/tape-tv/music_ids/badges/gpa.svg)](https://codeclimate.com/github/tape-tv/music_ids)[![Test Coverage](https://codeclimate.com/github/tape-tv/music_ids/badges/coverage.svg)](https://codeclimate.com/github/tape-tv/music_ids/coverage)[![Gem Version](https://badge.fury.io/rb/music_ids.svg)](http://badge.fury.io/rb/music_ids) [RDoc](http://www.rubydoc.info/gems/music_ids)
+[![Build Status](https://travis-ci.org/tape-tv/music_ids.svg)](https://travis-ci.org/tape-tv/music_ids)
+[![Code Climate](https://codeclimate.com/github/tape-tv/music_ids/badges/gpa.svg)](https://codeclimate.com/github/tape-tv/music_ids)
+[![Test Coverage](https://codeclimate.com/github/tape-tv/music_ids/badges/coverage.svg)](https://codeclimate.com/github/tape-tv/music_ids/coverage)
+[![Gem Version](https://badge.fury.io/rb/music_ids.svg)](http://badge.fury.io/rb/music_ids)
+[![Docs](http://inch-ci.org/github/tape-tv/music_ids.svg?branch=master)](http://inch-ci.org/github/tape-tv/music_ids)
 
 `music_ids` contains classes that represent some of the main ID formats in use in the music industry for identifying individual pieces of recorded music.
 
