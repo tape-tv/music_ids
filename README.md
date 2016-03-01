@@ -1,4 +1,4 @@
-# MusicIds
+# ​![](http://i.imgur.com/ROJdCFe.png?1) MusicIds
 
 [![Build Status](https://travis-ci.org/tape-tv/music_ids.svg)](https://travis-ci.org/tape-tv/music_ids)
 [![Code Climate](https://codeclimate.com/github/tape-tv/music_ids/badges/gpa.svg)](https://codeclimate.com/github/tape-tv/music_ids)
